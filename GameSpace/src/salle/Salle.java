@@ -3,12 +3,18 @@ package salle;
 //pour lire les entrées du clavier
 import java.util.Scanner;
 import java.math.BigDecimal;
-//import java.time.LocalDate;
-//import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.json.simple.JSONObject;
 
 public class Salle {
     //utiliser pour scan simplifier les chose
     private final static Scanner scan = new Scanner(System.in);
+    static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd");
+    static int day = Integer.parseInt(LocalDate.now().format(formatter));
+    static int dailytarif;
     //function menu() qui represente le menu de l'application
     public static void menu(){
         int a;
@@ -27,8 +33,8 @@ public class Salle {
             a = scan.nextInt();
             switch (a) {
                 case 1 -> InfoJoueur();
-                case 2 -> System.out.println("revenue du jour");
-                case 3 -> System.out.println("revenue du mois");
+                case 2 -> revenue(0);
+                case 3 -> System.out.println("le revenu du mois est : 0 DH");
                 case 4 -> {
                     System.out.println("A bientôt !!");
                     System.exit(0);
@@ -102,15 +108,42 @@ public class Salle {
                 System.out.println("Tu peut me choisir svp : ");
                 chose = scan.nextInt();
                 switch (chose) {
-                    case 1 -> p1.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
-                    case 2 -> p2.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
-                    case 3 -> p3.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
-                    case 4 -> p4.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
-                    case 5 -> p5.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
-                    case 6 -> p6.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
-                    case 7 -> p7.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
-                    case 8 -> p8.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
-                    case 9 -> p9.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
+                    case 1 -> {
+                        p1.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
+                        revenue(tarif(Duree));
+                    }
+                    case 2 -> {
+                        p2.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
+                        revenue(tarif(Duree));
+                    }
+                    case 3 -> {
+                        p3.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
+                        revenue(tarif(Duree));
+                    }
+                    case 4 -> {
+                        p4.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
+                        revenue(tarif(Duree));
+                    }
+                    case 5 -> {
+                        p5.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
+                        revenue(tarif(Duree));
+                    }
+                    case 6 -> {
+                        p6.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
+                        revenue(tarif(Duree));
+                    }
+                    case 7 -> {
+                        p7.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
+                        revenue(tarif(Duree));
+                    }
+                    case 8 -> {
+                        p8.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
+                        revenue(tarif(Duree));
+                    }
+                    case 9 -> {
+                        p9.Reserver(ConvertHour(HeureDebut), ConvertHour(HeureDebut + Duree), code);
+                        revenue(tarif(Duree));
+                    }
                     default -> System.out.println("Operation invalide");
                 }
             }
@@ -143,7 +176,8 @@ public class Salle {
     //function CheckFin() qui permet de
     public  static boolean CheckFin(double debut,double periode){
         double fin;
-        fin = ConvertHour(debut+periode) ;
+        fin = ConvertHour(debut+periode);
+        System.out.printf("Heure du fin : %.2f\n",fin);
         return (fin >= 8.00 && fin <= 12.00) || (fin >= 14.00 && fin <= 20.00);
     }
 
@@ -164,6 +198,40 @@ public class Salle {
         else if(num == 3) res =2;
         else if(num == 4) res =5;
         return res;
+    }
+
+    public static int tarif(int a)
+    {
+        int tarif=0;
+        if(a==1) tarif=5;
+        else if (a==2) tarif = 10;
+        else if (a==3) tarif = 18;
+        else if (a==4) tarif = 40;
+        return tarif;
+    }
+
+    public static void revenue(int tarif) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd");
+        int dnow = Integer.parseInt(LocalDate.now().format(formatter));
+        if(day == dnow) {
+            dailytarif=dailytarif+tarif;
+        }
+        else
+        {
+            dailytarif=0;
+            day = Integer.parseInt(LocalDate.now().format(formatter));
+        }
+        JSONObject file = new JSONObject();
+        file.put("Tarif par jour : ",dailytarif);
+        FileWriter test = null;
+        try {
+            test = new FileWriter("db.json");
+            test.write(file.toJSONString());
+            test.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.printf("les revenu du jour : %s DH\n",dailytarif);
     }
 
     public static void main(String[] args) {

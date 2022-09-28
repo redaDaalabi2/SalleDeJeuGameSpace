@@ -81,7 +81,7 @@ public class Poste {
             }
             else
             {
-                if(debut != day && SalleAttente < 2)
+                if(debut != day && SalleAttente < 8)
                 {
                     SalleAttente ++;
                     res=true;
@@ -89,7 +89,7 @@ public class Poste {
                 }
                 else
                 {
-                    if(SalleAttente == 2)
+                    if(SalleAttente == 8)
                     {
                         System.out.println("Salle d'attente plein a la prochaine fois");
                         System.out.println("Salle d'attente : "+SalleAttente);
@@ -110,12 +110,26 @@ public class Poste {
             System.out.println("Bien Reserver pour  le poste : "+Num);
             System.out.printf("Code du joueur : %s\n",code);
             System.out.printf("Heure de debut : %.2f\n",debut);
-
         }
         else
         {
             System.out.println("Poste Occupé !! Poste : "+ Num);
         }
+    }
+
+    public void Revenue(int Tarif) {
+        int dailytarif=0;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd");
+        int dnow = Integer.parseInt(LocalDate.now().format(formatter));
+        if(day == dnow) {
+            dailytarif=dailytarif+Tarif;
+        }
+        else
+        {
+            dailytarif=Tarif;
+            this.day = Integer.parseInt(LocalDate.now().format(formatter));
+        }
+        System.out.printf("les revenu du jour : %t DH",dailytarif);
     }
 
 }
