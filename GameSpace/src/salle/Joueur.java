@@ -8,8 +8,9 @@ public class Joueur {
     private String Nom;
     private String Code;
 
-    //function qui permet générer le code de joueur
+    //function qui permet de créer un joueur
     public Joueur(String Nom, String Prenom){
+        //générer le code de joueur
         this.Code = UUID.randomUUID().toString();
         this.Nom = Nom;
         this.Prenom = Prenom;

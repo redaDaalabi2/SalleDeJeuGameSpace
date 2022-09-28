@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+//import des bibliothèque pour réaliser file json
 import java.io.FileWriter;
 import java.io.IOException;
 import org.json.simple.JSONObject;
@@ -173,7 +174,7 @@ public class Salle {
         return (debut >= 8.00 && debut < 12.00) || (debut >= 14.00 && debut < 20.00);
     }
 
-    //function CheckFin() qui permet de
+    //function CheckFin() qui permet de deduire la date de fin
     public  static boolean CheckFin(double debut,double periode){
         double fin;
         fin = ConvertHour(debut+periode);
@@ -181,6 +182,7 @@ public class Salle {
         return (fin >= 8.00 && fin <= 12.00) || (fin >= 14.00 && fin <= 20.00);
     }
 
+    //function ConvertHour() qui permet de converter time h to min
     public static double ConvertHour(double time){
         int hours;
         float min;
@@ -190,6 +192,7 @@ public class Salle {
         return min;
     }
 
+    //function num() qui permet de returner les horaires par min
     public static double num(double num)
     {
         double res=0;
@@ -200,6 +203,7 @@ public class Salle {
         return res;
     }
 
+    //function tarif() qui permet de returner les tarifes par DH
     public static int tarif(int a)
     {
         int tarif=0;
@@ -210,6 +214,7 @@ public class Salle {
         return tarif;
     }
 
+    //function revenue() qui permet de calculer le revenue de jour
     public static void revenue(int tarif) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd");
         int dnow = Integer.parseInt(LocalDate.now().format(formatter));
@@ -235,6 +240,7 @@ public class Salle {
     }
 
     public static void main(String[] args) {
+        //appel de menu
         menu();
     }
 }

@@ -21,6 +21,7 @@ public class Poste {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd");
     int day = Integer.parseInt(LocalDate.now().format(formatter));
 
+    ////function qui permet de setter toutes les attributes
     public Poste(int num, String ecran, String console,String games) {
         this.Num = num;
         this.Ecran = ecran;
@@ -117,6 +118,7 @@ public class Poste {
         }
     }
 
+    //function pour la revenue par jour
     public void Revenue(int Tarif) {
         int dailytarif=0;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd");

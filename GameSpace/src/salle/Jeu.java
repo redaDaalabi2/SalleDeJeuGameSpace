@@ -7,10 +7,10 @@ public class Jeu {
     private String Code ;
 
     //function qui permet de setter toutes les attributes
-    public Jeu(double d, double f, String c){
-        this.DateDebut = d;
-        this.DateFin = f;
-        this.Code = c;
+    public Jeu(double debut, double fin, String code){
+        this.DateDebut = debut;
+        this.DateFin = fin;
+        this.Code = code;
     }
 
     //Getters
